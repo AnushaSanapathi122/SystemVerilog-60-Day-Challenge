@@ -32,3 +32,29 @@ constraint packet::addr_c {
 //Explanation
 extern tells the compiler that the constraint is defined outside the class.
 packet:: is the scope resolution operator.
+
+
+//example
+  
+class ABC;
+	rand bit [3:0] mode;
+
+	constraint c_implicit; 				
+	extern constraint c_explicit; 
+endclass
+
+constraint ABC::c_implicit { mode > 2; };
+constraint ABC::c_explicit { mode <= 6; };
+
+module tb;
+	ABC abc;
+
+	initial begin
+		abc = new();
+
+		for (int i = 0; i < 5; i++) begin
+			abc.randomize();
+          $display ("mode = 0x%0h", abc.mode);
+		end
+	end
+endmodule
